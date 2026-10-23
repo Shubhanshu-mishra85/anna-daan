@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anna Daan – bacha khana, zarooratmand tak</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --turmeric:#F6B800; --beet:#4F0F2B; --leaf:#1B6B47; --chalk:#FFF9E8; --chili:#D6341F;
+  --bg:var(--chalk); --ink:var(--beet); --card:#fff; --line:rgba(79,15,43,.16); --muted:rgba(79,15,43,.68);
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#1A0710; --ink:#FFF1CF; --card:#2B0F1D; --line:rgba(255,241,207,.18); --muted:rgba(255,241,207,.7);}
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:Hind,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:17px;line-height:1.55;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+h1,h2,h3,.brand{font-family:'Bricolage Grotesque',Impact,sans-serif;letter-spacing:-.02em;line-height:1.02}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--chili);outline-offset:3px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.brand{font-size:1.7rem;font-weight:800;text-decoration:none}
+.nav-a{font-weight:600;text-decoration:none;border-bottom:2px solid var(--turmeric)}
+
+/* hero */
+.hero{background:var(--turmeric);color:#4F0F2B;border-radius:0 0 48px 48px;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:center;padding-bottom:56px}
+.hero h1{font-size:clamp(2.8rem,8.5vw,6.2rem);font-weight:800;margin:18px 0 20px}
+.hero p{max-width:34ch;font-size:1.15rem;font-weight:500}
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.btn{font:600 1rem Hind,sans-serif;border:2px solid #4F0F2B;background:#4F0F2B;color:#FFF9E8;padding:13px 22px;border-radius:99px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.ghost{background:transparent;color:#4F0F2B}
+.btn:active{transform:scale(.97)}
+.hero nav a{color:#4F0F2B}
+
+/* thali: the one memorable thing */
+.thali{aspect-ratio:1;border-radius:50%;background:#4F0F2B;padding:7%;position:relative;box-shadow:0 0 0 10px rgba(79,15,43,.14);max-width:420px;margin:0 auto;width:100%}
+.thali-in{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(6,1fr);gap:4%;width:100%;height:100%}
+.bowl{border-radius:50%;display:grid;place-items:center;font:800 clamp(.7rem,1.8vw,.95rem)/1.1 'Bricolage Grotesque',sans-serif;text-align:center;color:#fff;cursor:pointer;border:0;transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.bowl:hover,.bowl:focus-visible{transform:scale(1.08) rotate(-4deg)}
+.b1{grid-area:1/2/4/5;background:var(--chili)}
+.b2{grid-area:1/5/3/7;background:var(--leaf)}
+.b3{grid-area:3/5/5/7;background:#F6B800;color:#4F0F2B}
+.b4{grid-area:4/1/7/4;background:#F7EBD0;color:#4F0F2B}
+.b5{grid-area:4/4/7/6;background:#8E2A55}
+.b6{grid-area:1/1/4/2;background:#2E8B5E}
+.thali-note{text-align:center;font-weight:600;margin-top:14px;min-height:3.2em}
+
+/* app */
+section{padding:64px 0}
+h2{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;margin-bottom:10px}
+.sub{color:var(--muted);max-width:52ch;margin-bottom:28px}
+.app{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:28px;align-items:start}
+form{background:var(--card);border:2px solid var(--ink);border-radius:28px;padding:24px;display:grid;gap:14px;box-shadow:8px 8px 0 var(--turmeric)}
+label{font-weight:600;display:grid;gap:5px;font-size:.95rem}
+input,select{font:inherit;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:var(--bg);color:var(--ink);width:100%}
+input:focus,select:focus{border-color:var(--ink);outline:none}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.seg{display:flex;gap:8px}
+.seg input{position:absolute;opacity:0}
+.seg span{display:block;text-align:center;padding:11px;border-radius:14px;border:2px solid var(--line);cursor:pointer;font-weight:600}
+.seg input:checked+span{background:var(--leaf);border-color:var(--leaf);color:#fff}
+.seg input.nv:checked+span{background:var(--chili);border-color:var(--chili)}
+.seg input:focus-visible+span{outline:3px solid var(--chili);outline-offset:2px}
+.seg label{flex:1}
+.hint{font-size:.88rem;color:var(--muted)}
+.feed{display:grid;gap:16px}
+.feed-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.chip{font-weight:600;border:2px solid var(--line);background:transparent;color:var(--ink);padding:7px 14px;border-radius:99px;cursor:pointer;font-family:Hind}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.card{background:var(--card);border:2px solid var(--line);border-radius:28px;padding:18px;display:grid;grid-template-columns:88px 1fr;gap:16px;align-items:center}
+.ring{--p:60;--c:var(--leaf);width:88px;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;
+  background:conic-gradient(var(--c) calc(var(--p)*1%),var(--line) 0)}
+.ring b{width:70%;aspect-ratio:1;border-radius:50%;background:var(--card);display:grid;place-items:center;font:800 .95rem 'Bricolage Grotesque',sans-serif;text-align:center;line-height:1}
+.ring small{display:block;font:500 .62rem Hind;color:var(--muted);margin-top:2px}
+.card.low{--c:var(--chili);border-color:var(--chili)}
+.card h3{font-size:1.3rem;margin-bottom:4px}
+.meta{color:var(--muted);font-size:.93rem}
+.tag{display:inline-block;font-weight:600;font-size:.82rem;padding:2px 10px;border-radius:99px;color:#fff;background:var(--leaf);margin-right:6px}
+.tag.nv{background:var(--chili)}
+.acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.acts .btn{padding:8px 16px;font-size:.92rem;background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.acts .btn.ghost{background:transparent;color:var(--ink)}
+.done{opacity:.6}
+.empty{border:2px dashed var(--line);border-radius:28px;padding:28px;text-align:center;color:var(--muted)}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:2px solid var(--ink)}
+.step{padding:22px 22px 0 0}
+.step+.step{padding-left:22px;border-left:2px solid var(--line)}
+.step h3{font-size:1.5rem;margin:6px 0}
+.step .n{font:800 3rem 'Bricolage Grotesque',sans-serif;color:var(--turmeric);-webkit-text-stroke:2px var(--ink)}
+footer{background:var(--beet);color:#FFF1CF;padding:36px 0;border-radius:48px 48px 0 0;margin-top:30px}
+footer p{max-width:60ch}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:99px;font-weight:600;opacity:0;transition:.3s;pointer-events:none;z-index:9}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:820px){
+  .hero .wrap,.app{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .step+.step{border-left:0;border-top:2px solid var(--line);padding-left:0;margin-top:18px}
+  .hero{border-radius:0 0 32px 32px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap" style="display:block;padding-bottom:0">
+    <nav><a class="brand" href="#">Anna Daan</a><a class="nav-a" href="#app">Khana post karo</a></nav>
+  </div>
+  <div class="wrap">
+    <div>
+      <h1>Khana mat fenko. Baant do.</h1>
+      <p>Shaadi, party ya canteen me khana bach gaya? 30 second me post karo. Paas ka NGO ya volunteer utha lega, safe time khatam hone se pehle.</p>
+      <div class="btns">
+        <a class="btn" href="#app">Khana hai, post karna hai</a>
+        <a class="btn ghost" href="#feed">Khana chahiye, dekhna hai</a>
+      </div>
+    </div>
+    <div>
+      <div class="thali" aria-label="Thaali, har katori dabake dekho">
+        <div class="thali-in">
+          <button class="bowl b1" data-t="Dal, chawal, sabzi: sab veg khana 6 ghante tak safe rehta hai.">Dal</button>
+          <button class="bowl b2" data-t="Salad aur raita: jaldi uthao, 2 ghante ke andar.">Salad</button>
+          <button class="bowl b3" data-t="Mithai: 8 ghante tak theek, par dabbe me band rakho.">Mithai</button>
+          <button class="bowl b4" data-t="Roti, puri, naan: sukhne se pehle foil me lapeto.">Roti</button>
+          <button class="bowl b5" data-t="Non-veg: sirf 4 ghante. Timer dekhke hi pickup karo.">Non-veg</button>
+          <button class="bowl b6" data-t="Chawal aur pulao: thanda hone se pehle packing karo.">Chawal</button>
+        </div>
+      </div>
+      <p class="thali-note" id="thaliNote" aria-live="polite">Katori dabao, safe time jaano.</p>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="app">
+    <h2>Ek tap me, khana nikla.</h2>
+    <p class="sub">Form bharo. Neeche live list me turant dikhega, aur timer batayega kitna time bacha hai.</p>
+    <div class="app">
+      <form id="f">
+        <label>Kahan ka khana hai
+          <input id="place" required maxlength="60" placeholder="Jaise: Sharma ji ki shaadi, Rampur">
+        </label>
+        <label>Khana kaisa hai
+          <div class="seg">
+            <label><input type="radio" name="type" value="veg" checked><span>Veg</span></label>
+            <label><input type="radio" name="type" value="nv" class="nv"><span>Non-veg</span></label>
+          </div>
+        </label>
+        <div class="row">
+          <label>Kitne log ka
+            <input id="plates" type="number" min="1" max="2000" required placeholder="50">
+          </label>
+          <label>Kitne ghante pehle bana
+            <input id="ago" type="number" min="0" max="12" step="0.5" value="1" required>
+          </label>
+        </div>
+        <label>Phone number
+          <input id="phone" type="tel" required pattern="[0-9]{10}" placeholder="10 digit">
+        </label>
+        <button class="btn" type="submit">Post karo</button>
+        <p class="hint">Veg khana 6 ghante, non-veg 4 ghante safe maana gaya hai. Timer khatam hone ke baad post apne aap hat jaata hai.</p>
+      </form>
+
+      <div class="feed" id="feed">
+        <div class="feed-head">
+          <h3 style="font-size:1.6rem">Abhi live</h3>
+          <div><button class="chip" data-f="all" aria-pressed="true">Sab</button>
+          <button class="chip" data-f="veg" aria-pressed="false">Veg</button>
+          <button class="chip" data-f="nv" aria-pressed="false">Non-veg</button></div>
+        </div>
+        <div id="list" class="feed" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Teen kadam, bas.</h2>
+    <p class="sub">Koi app install nahi, koi lamba login nahi.</p>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>Post</h3><p>Host khana, quantity aur phone number daalta hai.</p></div>
+      <div class="step"><div class="n">2</div><h3>Claim</h3><p>Paas ka volunteer ya NGO “Main utha lunga” dabata hai.</p></div>
+      <div class="step"><div class="n">3</div><h3>Pickup</h3><p>Safe time ke andar khana zarooratmand tak pahunchta hai.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <h3 style="font-size:1.8rem;margin-bottom:8px">Anna Daan</h3>
+    <p>Khana kachre me nahi, kisi ki thaali me jaana chahiye.</p>
+  </div>
+</footer>
+<div id="toast" role="status"></div>
+
+<script>
+(function(){
+  var KEY='thaali_posts_v1', H=3600000, WIN={veg:6,nv:4};
+  var filter='all', posts=[];
+  var $=function(s){return document.querySelector(s)};
+
+  function load(){
+    try{var r=localStorage.getItem(KEY); if(r) return JSON.parse(r);}catch(e){}
+    var n=Date.now();
+    return [
+      {id:1,place:'Gupta ji ki shaadi, Civil Lines',type:'veg',plates:80,made:n-1.5*H,phone:'9876500001',claimed:false},
+      {id:2,place:'College canteen, Block B',type:'nv',plates:25,made:n-3.2*H,phone:'9876500002',claimed:false}
+    ];
+  }
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(posts));}catch(e){}}
+  function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on')},2200);}
+  function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+  function left(p){return WIN[p.type]*H-(Date.now()-p.made);}
+  function fmt(ms){var m=Math.max(0,Math.floor(ms/60000));return Math.floor(m/60)+'h '+('0'+(m%60)).slice(-2)+'m';}
+
+  function render(){
+    posts=posts.filter(function(p){return left(p)>0;});
+    var items=posts.filter(function(p){return filter==='all'||p.type===filter;})
+      .sort(function(a,b){return left(a)-left(b);});
+    var box=$('#list');
+    if(!items.length){box.innerHTML='<div class="empty">Abhi koi khana post nahi hua. Pehla post tum karo.</div>';return;}
+    box.innerHTML=items.map(function(p){
+      var l=left(p), pct=Math.round(l/(WIN[p.type]*H)*100), low=l<H;
+      return '<article class="card'+(low?' low':'')+(p.claimed?' done':'')+'">'+
+        '<div class="ring" style="--p:'+pct+'"><b><span>'+fmt(l)+'<small>bacha hai</small></span></b></div>'+
+        '<div><h3>'+esc(p.place)+'</h3>'+
+        '<p class="meta"><span class="tag'+(p.type==='nv'?' nv':'')+'">'+(p.type==='nv'?'Non-veg':'Veg')+'</span>'+p.plates+' log ka khana</p>'+
+        '<div class="acts">'+(p.claimed
+          ? '<span class="meta">Pickup ho raha hai</span>'
+          : '<button class="btn" data-claim="'+p.id+'">Main utha lunga</button><a class="btn ghost" href="tel:'+esc(p.phone)+'">Call karo</a>')+
+        '</div></div></article>';
+    }).join('');
+  }
+
+  $('#f').addEventListener('submit',function(e){
+    e.preventDefault();
+    var type=document.querySelector('input[name=type]:checked').value;
+    var ago=parseFloat($('#ago').value)||0;
+    if(ago>=WIN[type]){toast('Itna purana khana safe nahi hai. Post nahi ho sakta.');return;}
+    posts.unshift({id:Date.now(),place:$('#place').value.trim(),type:type,plates:parseInt($('#plates').value,10),
+      made:Date.now()-ago*H,phone:$('#phone').value,claimed:false});
+    save();render();e.target.reset();toast('Post ho gaya. Ab volunteer ko dikhega.');
+    $('#feed').scrollIntoView({behavior:'smooth'});
+  });
+
+  $('#list').addEventListener('click',function(e){
+    var id=e.target.getAttribute('data-claim'); if(!id)return;
+    posts.forEach(function(p){if(String(p.id)===id)p.claimed=true;});
+    save();render();toast('Claim ho gaya. Host ko call karke pickup tay karo.');
+  });
+
+  document.querySelectorAll('.chip').forEach(function(c){
+    c.addEventListener('click',function(){
+      filter=c.getAttribute('data-f');
+      document.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',x===c);});
+      render();
+    });
+  });
+
+  document.querySelectorAll('.bowl').forEach(function(b){
+    b.addEventListener('click',function(){$('#thaliNote').textContent=b.getAttribute('data-t');});
+  });
+
+  posts=load();render();setInterval(render,30000);
+})();
+</script>
+</body>
+</html>
