@@ -119,7 +119,7 @@ MIT, free hai. Copy karo, sudharo, apne sheher ke liye banao.
 
 <div align="center">
 
-**Made with ❤️ by 🪔 **
+**Made with ❤️ by ⭕❗⭕ **
 
 *Khana kachre me nahi, kisi ki thaali me jaana chahiye.*
 
