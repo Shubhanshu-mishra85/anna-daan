@@ -5,7 +5,7 @@
 ### *Anna daan, mahadaan.*
 **Shaadi ka bacha khana, kisi ki thaali tak. Timer khatam hone se pehle.**
 
-[**▶ Live Demo**](https://YOUR-USERNAME.github.io/anna-daan/) &nbsp;·&nbsp; HTML · CSS · JavaScript &nbsp;·&nbsp; No install, no login
+[**▶ Live Demo**](https://shubhanshu-mishra85.github.io/anna-daan/) &nbsp;·&nbsp; HTML · CSS · JavaScript &nbsp;·&nbsp; No install, no login
 
 </div>
 
