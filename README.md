@@ -5,7 +5,7 @@
 ### *Anna daan, mahadaan.*
 **Shaadi ka bacha khana, kisi ki thaali tak. Timer khatam hone se pehle.**
 
-[**▶ Live Demo**](https://shubhanshu-mishra85.github.io/anna-daan/) &nbsp;·&nbsp; HTML · CSS · JavaScript &nbsp;·&nbsp; No install, no login
+[**▶ Live Demo**](https://shubhanshu-mishra85.github.io/anna-daan/) &nbsp;·&nbsp; HTML · CSS · JavaScript · SQL · PWA &nbsp;·&nbsp; No login
 
 </div>
 
@@ -53,6 +53,7 @@ Har post ke saath ek **ghoomta hua timer ring** hota hai. Jaise time bachta kam 
 - 🍛 **Interactive thaali:** home page ki katori dabao, us khane ka safe time dikhega
 - 🔎 **Filter:** Sab / Veg / Non-veg
 - 📞 **Seedha call:** beech me koi commission ya middleman nahi
+- 📲 **PWA:** phone ki home screen pe app ki tarah install hota hai
 - 🌗 **Dark mode** aur phone pe bhi poora sahi dikhta hai
 - 🗣️ **Hinglish me likha hai**, jo har kisi ko samajh aaye
 
@@ -61,7 +62,7 @@ Har post ke saath ek **ghoomta hua timer ring** hota hai. Jaise time bachta kam 
 ## Chalao apne computer pe
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/anna-daan.git
+git clone https://github.com/shubhanshu-mishra85/anna-daan.git
 cd anna-daan
 # index.html ko browser me kholo. Bas.
 ```
@@ -76,25 +77,38 @@ cd anna-daan
 
 ## Banaya kis se
 
-Ek hi file, **`index.html`**, jisme teeno hain:
-
 | | |
 |---|---|
-| **HTML** | structure |
+| **HTML** | page ka structure |
 | **CSS** | thaali aur timer ring ka design |
-| **JavaScript** | timer, form, claim button, `localStorage` |
+| **JavaScript** | form, claim button, timer, database se baat (`fetch`) |
+| **SQL** | `schema.sql`: posts table, index, row level security (Supabase / PostgreSQL) |
+| **DBMS** | table design, constraints (check), primary key, index |
+| **DSA** | **Min-Heap**: sabse kam time bacha khana list me sabse upar |
+| **PWA** | `manifest.json` + `sw.js`: phone me install, offline chalne wala app shell |
 
-Koi framework nahi, koi build step nahi.
+Koi framework nahi, koi library nahi.
+
+```
+anna-daan/
+├── index.html
+├── manifest.json
+├── sw.js
+├── icon-192.png
+├── icon-512.png
+├── schema.sql
+└── README.md
+```
 
 ---
 
 ## Abhi kya adhura hai
 
-Honest rahte hain: abhi post sirf **usi browser me** save hote hain, kyunki ye demo version hai.
+Honest rahte hain: jab tak database (Supabase) connect nahi hota, ye **demo mode** me chalta hai aur post sirf **usi browser me** save hote hain.
 
 ## Aage kya aayega
 
-- [ ] 🔥 Firebase se **sabko ek hi live list**
+- [ ] 🔥 Supabase (SQL) se **sabko ek hi live list**
 - [ ] 📍 Paas ke NGO/volunteer ko location ke hisaab se dikhana
 - [ ] 💬 WhatsApp / push notification
 - [ ] 📷 Khane ki photo
@@ -119,7 +133,7 @@ MIT, free hai. Copy karo, sudharo, apne sheher ke liye banao.
 
 <div align="center">
 
-**Made with ❤️ by ⭕❗⭕ **
+**Made with ❤️ by ⭕❗⭕**
 
 *Khana kachre me nahi, kisi ki thaali me jaana chahiye.*
 
