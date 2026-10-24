@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F6B800">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>Anna Daan – bacha khana, zarooratmand tak</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
@@ -200,13 +204,52 @@ footer p{max-width:60ch}
 </footer>
 <div id="toast" role="status"></div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
 (function(){
-  var KEY='thaali_posts_v1', H=3600000, WIN={veg:6,nv:4};
+  // ---- Database (SQL on Supabase), plain fetch, no library ----
+  var SB_URL='https://apsnafftvqipaunzezml.supabase.co';
+  var SB_KEY='PASTE_PUBLISHABLE_KEY_HERE';
+  var ONLINE=SB_KEY.indexOf('sb_publishable_')===0;
+  var KEY='anna_daan_posts_v1', H=3600000, WIN={veg:6,nv:4};
   var filter='all', posts=[];
   var $=function(s){return document.querySelector(s)};
 
-  function load(){
+  function api(path,opt){
+    opt=opt||{};
+    opt.headers=Object.assign({apikey:SB_KEY,'Content-Type':'application/json'},opt.headers||{});
+    return fetch(SB_URL+'/rest/v1/'+path,opt).then(function(r){
+      if(!r.ok) throw new Error(r.status);
+      return r.status===204?null:r.text().then(function(t){return t?JSON.parse(t):null;});
+    });
+  }
+  function toLocal(r){return {id:r.id,place:r.place,type:r.type,plates:r.plates,made:Date.parse(r.made_at),phone:r.phone,claimed:r.claimed};}
+
+  // ---- DSA: min-heap, sabse kam time wala khana sabse upar ----
+  function MinHeap(key){this.a=[];this.k=key;}
+  MinHeap.prototype.push=function(x){
+    var a=this.a,k=this.k,i=a.push(x)-1;
+    while(i>0){var p=(i-1)>>1; if(k(a[p])<=k(a[i]))break; var t=a[p];a[p]=a[i];a[i]=t;i=p;}
+  };
+  MinHeap.prototype.pop=function(){
+    var a=this.a,k=this.k,top=a[0],last=a.pop();
+    if(a.length){a[0]=last;var i=0,n=a.length;
+      for(;;){var l=2*i+1,r=l+1,m=i;
+        if(l<n&&k(a[l])<k(a[m]))m=l;
+        if(r<n&&k(a[r])<k(a[m]))m=r;
+        if(m===i)break;var t=a[m];a[m]=a[i];a[i]=t;i=m;}
+    }
+    return top;
+  };
+  function sortByExpiry(items){
+    var h=new MinHeap(left),out=[];
+    items.forEach(function(p){h.push(p);});
+    while(h.a.length)out.push(h.pop());
+    return out;
+  }
+
+  function localLoad(){
     try{var r=localStorage.getItem(KEY); if(r) return JSON.parse(r);}catch(e){}
     var n=Date.now();
     return [
@@ -214,17 +257,23 @@ footer p{max-width:60ch}
       {id:2,place:'College canteen, Block B',type:'nv',plates:25,made:n-3.2*H,phone:'9876500002',claimed:false}
     ];
   }
-  function save(){try{localStorage.setItem(KEY,JSON.stringify(posts));}catch(e){}}
-  function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on')},2200);}
+  function localSave(){try{localStorage.setItem(KEY,JSON.stringify(posts));}catch(e){}}
+  function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on')},2400);}
   function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
-
   function left(p){return WIN[p.type]*H-(Date.now()-p.made);}
   function fmt(ms){var m=Math.max(0,Math.floor(ms/60000));return Math.floor(m/60)+'h '+('0'+(m%60)).slice(-2)+'m';}
 
+  function fetchPosts(){
+    if(!ONLINE){render();return Promise.resolve();}
+    return api('posts?select=*&order=made_at.desc&limit=200')
+      .then(function(rows){posts=(rows||[]).map(toLocal);render();})
+      .catch(function(){toast('Internet ya database check karo.');});
+  }
+
   function render(){
-    posts=posts.filter(function(p){return left(p)>0;});
-    var items=posts.filter(function(p){return filter==='all'||p.type===filter;})
-      .sort(function(a,b){return left(a)-left(b);});
+    var items=sortByExpiry(posts.filter(function(p){
+      return left(p)>0&&(filter==='all'||p.type===filter);
+    }));
     var box=$('#list');
     if(!items.length){box.innerHTML='<div class="empty">Abhi koi khana post nahi hua. Pehla post tum karo.</div>';return;}
     box.innerHTML=items.map(function(p){
@@ -242,19 +291,34 @@ footer p{max-width:60ch}
 
   $('#f').addEventListener('submit',function(e){
     e.preventDefault();
+    var form=e.target;
     var type=document.querySelector('input[name=type]:checked').value;
     var ago=parseFloat($('#ago').value)||0;
     if(ago>=WIN[type]){toast('Itna purana khana safe nahi hai. Post nahi ho sakta.');return;}
-    posts.unshift({id:Date.now(),place:$('#place').value.trim(),type:type,plates:parseInt($('#plates').value,10),
-      made:Date.now()-ago*H,phone:$('#phone').value,claimed:false});
-    save();render();e.target.reset();toast('Post ho gaya. Ab volunteer ko dikhega.');
+    var made=Date.now()-ago*H;
+    var row={place:$('#place').value.trim(),type:type,plates:parseInt($('#plates').value,10),phone:$('#phone').value};
+    if(ONLINE){
+      api('posts',{method:'POST',headers:{Prefer:'return=minimal'},
+        body:JSON.stringify({place:row.place,type:row.type,plates:row.plates,phone:row.phone,made_at:new Date(made).toISOString()})})
+      .then(function(){form.reset();toast('Post ho gaya. Ab sabko dikhega.');return fetchPosts();})
+      .catch(function(){toast('Post nahi hua. Dobara try karo.');});
+    }else{
+      row.id=Date.now();row.made=made;row.claimed=false;
+      posts.unshift(row);localSave();render();form.reset();toast('Post ho gaya.');
+    }
     $('#feed').scrollIntoView({behavior:'smooth'});
   });
 
   $('#list').addEventListener('click',function(e){
     var id=e.target.getAttribute('data-claim'); if(!id)return;
-    posts.forEach(function(p){if(String(p.id)===id)p.claimed=true;});
-    save();render();toast('Claim ho gaya. Host ko call karke pickup tay karo.');
+    if(ONLINE){
+      api('posts?id=eq.'+encodeURIComponent(id),{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({claimed:true})})
+      .then(function(){toast('Claim ho gaya. Host ko call karke pickup tay karo.');return fetchPosts();})
+      .catch(function(){toast('Claim nahi hua. Dobara try karo.');});
+    }else{
+      posts.forEach(function(p){if(String(p.id)===id)p.claimed=true;});
+      localSave();render();toast('Claim ho gaya. Host ko call karke pickup tay karo.');
+    }
   });
 
   document.querySelectorAll('.chip').forEach(function(c){
@@ -264,12 +328,17 @@ footer p{max-width:60ch}
       render();
     });
   });
-
   document.querySelectorAll('.bowl').forEach(function(b){
     b.addEventListener('click',function(){$('#thaliNote').textContent=b.getAttribute('data-t');});
   });
 
-  posts=load();render();setInterval(render,30000);
+  posts=ONLINE?[]:localLoad();
+  fetchPosts();
+  setInterval(render,30000);
+  if(ONLINE)setInterval(fetchPosts,20000);
+
+  // ---- PWA ----
+  if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
 })();
 </script>
 </body>
