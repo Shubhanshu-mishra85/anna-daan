@@ -65,12 +65,12 @@ input,select{font:inherit;padding:12px 14px;border-radius:14px;border:2px solid 
 input:focus,select:focus{border-color:var(--ink);outline:none}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .seg{display:flex;gap:8px}
-.seg input{position:absolute;opacity:0}
+.seg input{position:absolute;opacity:0;width:1px;height:1px;left:0;top:0;pointer-events:none}
 .seg span{display:block;text-align:center;padding:11px;border-radius:14px;border:2px solid var(--line);cursor:pointer;font-weight:600}
 .seg input:checked+span{background:var(--leaf);border-color:var(--leaf);color:#fff}
 .seg input.nv:checked+span{background:var(--chili);border-color:var(--chili)}
 .seg input:focus-visible+span{outline:3px solid var(--chili);outline-offset:2px}
-.seg label{flex:1}
+.seg label{flex:1;position:relative}
 .hint{font-size:.88rem;color:var(--muted)}
 .feed{display:grid;gap:16px}
 .feed-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
